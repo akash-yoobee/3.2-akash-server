@@ -5,17 +5,6 @@ const mongoose = require('mongoose')
 const User = mongoose.model('User')
 const Project = mongoose.model('Project')
 
-
-
-
-
-
-
-
-
-
-module.exports = router
-
 // router.param('user', function (req, res, next, id) {
 //     User.findById(id)
 //         .then(function (user) {
@@ -27,20 +16,20 @@ module.exports = router
 //         })
 // })
 
-// // Get all users
-// router.get('/', function (req, res, next) {
-//     console.log('***** Get Users *****')
-//     User
-//         .find()
-//         .sort({ createdAt: 'desc' })
-//         .then(function (users) {
-//             return res.json({
-//                 users: users.map(function (user) {
-//                     return user.toJSON()
-//                 })
-//             })
-//         })
-// })
+// Get all users
+// http://localhost:3000/v1/users/
+router.get('/', function (req, res, next) {
+    User
+        .find()
+        .sort({ createdAt: 'desc' })
+        .then(function (users) {
+            return res.json({
+                users: users.map(function (user) {
+                    return user.toJSON()
+                })
+            })
+        })
+})
 // // Get an user by id
 // router.get('/:user', async function (req, res, next) {
 //     console.log('***** User by id *****')
@@ -168,6 +157,28 @@ module.exports = router
 //     return res.json({ user: user.toJSON() })
 // })
 
+// Registering a new user
+// http://localhost:3000/v1/users/register/
+router.post('/register', async function (req, res, next) {
+  if (!req.body.email) {
+      return res.status(422).json({
+          success: false, message: 'Email cannot be blank'
+      });
+  }
+  if (!req.body.firstName) {
+      return res.status(422).json({
+          success: false, message: 'First name cannot be blank'
+      });
+  }
+  let existingUser = await User.findOne({ email: req.body.email });
+  if (existingUser) {
+      return res.status(422).json({
+          success: false, message: 'User already exists'
+      });
+  }
+  let user = new User(req.body);
+  await user.save();
+  return res.json({ user: user.toJSON() });
+});
 
-
-
+module.exports = router;
