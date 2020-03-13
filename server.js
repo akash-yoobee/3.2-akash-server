@@ -7,6 +7,7 @@ const dotenv = require('dotenv')
 dotenv.config()
 
 const app = express()
+app.use(cors());
 
 // Models
 require('./models/Project')
@@ -16,7 +17,7 @@ require('./models/User')
 app.use(bodyParser.urlencoded({extended:false}));
 app.use(bodyParser.json())
 app.use(require('./routes'));
-app.use(cors());
+
 
 // Connect to db
 mongoose.connect(process.env.MONGODB_URI, {

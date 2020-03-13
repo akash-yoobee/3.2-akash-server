@@ -1,8 +1,7 @@
-const mongoose = require('mongoose')
+const mongoose = require('mongoose');
 
 const UserSchema = new mongoose.Schema({
     firstName: String,
-    lastName: String,
     email: String,
     projects: [
         {
@@ -16,10 +15,9 @@ UserSchema.methods.toJSON = function () {
     return {
         id: this.id,
         firstName: this.firstName,
-        lastName: this.lastName,
         email: this.email,
         projects: this.projects
     }
-}
+};
 
-mongoose.model('User', UserSchema)
+mongoose.model('User', UserSchema);
