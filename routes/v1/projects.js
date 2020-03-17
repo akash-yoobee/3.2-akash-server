@@ -5,6 +5,17 @@ const mongoose = require('mongoose')
 const User = mongoose.model('User')
 const Project = mongoose.model('Project')
 
+router.param('project', function (req, res, next, id) {
+    Project.findById(id)
+        .then(function (project) {
+            if (!Project) {
+                return res.sendStatus(404)
+            }
+            req.project = project
+            return next()
+        })
+})
+
 
 /********** GET ALL PROJECTS **********/
 
@@ -42,6 +53,14 @@ router.delete('/:project', async function (req, res, next) {
     console.log('***** Project Deleted *****');
     await Project.findByIdAndRemove(req.project.id)
     return res.sendStatus(204)
+})
+
+//---------- END ----------//
+/********** GET A PROJECT BY ID **********/
+
+router.get('/:project', function (req, res, next) {
+    console.log('***** Project by id *****')
+    return res.json({ project: req.project.toJSON() })
 })
 
 //---------- END ----------//

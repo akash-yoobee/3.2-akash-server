@@ -7,10 +7,10 @@ const ProjectSchema = new mongoose.Schema({
     url: String,
     desktopImageUrl: String,
     mobileImageUrl: String,
-    author: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User'
-    }
+    // author: {
+    //     type: mongoose.Schema.Types.ObjectId,
+    //     ref: 'User'
+    // }
 }, { timestamps: true })
 
 ProjectSchema.methods.toJSON = function ()  {
