@@ -46,17 +46,20 @@ router.get('/', function (req, res, next) {
 
 // Update a user
 router.put('/:user', async function (req, res, next) {
-    console.log('***** User Updated *****')
-    let updatedUser = _.extend(req.user, req.body)
-    await updatedUser.save()
-    return res.json({ user: updatedUser.toJSON() })
+    console.log('***** User Updated *****', req.body);
+    let updateduser = _.extend(req.user, req.body);
+    await updateduser.save();
+    return res.json({ user: updateduser.toJSON() });
+    // await updatedUser.save({ user: updatedUser.toJSON() });
+    // return res.json(updatedUser);
+});
+
+// delete a user
+router.delete('/:user', async function (req, res, next) {
+    console.log('***** User Deleted *****')
+    await User.findByIdAndRemove(req.user.id)
+    return res.sendStatus(204);
 })
-// // delete a user
-// router.delete('/:user', async function (req, res, next) {
-//     console.log('***** User Deleted *****')
-//     await User.findByIdAndRemove(req.user.id)
-//     return res.sendStatus(204);
-// })
 
 
 
