@@ -5,16 +5,16 @@ const mongoose = require('mongoose')
 const User = mongoose.model('User')
 const Project = mongoose.model('Project')
 
-// router.param('user', function (req, res, next, id) {
-//     User.findById(id)
-//         .then(function (user) {
-//             if (!User) {
-//                 return res.sendStatus(404)
-//             }
-//             req.user = user
-//             return next()
-//         })
-// })
+router.param('user', function (req, res, next, id) {
+    User.findById(id)
+        .then(function (user) {
+            if (!User) {
+                return res.sendStatus(404)
+            }
+            req.user = user
+            return next()
+        })
+})
 
 // Get all users
 // http://localhost:3000/v1/users/
